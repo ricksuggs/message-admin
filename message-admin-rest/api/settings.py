@@ -1,10 +1,11 @@
 from eve_sqlalchemy.config import DomainConfig, ResourceConfig
 from api.models import Source, Message
+from pathlib import Path
 import os
 
 DEBUG = True
 SQLALCHEMY_DATABASE_URI = (
-    f"sqlite:////{os.path.abspath(os.path.dirname(__file__))}/db.sqlite"
+    f"sqlite:////{Path.cwd()}/db.sqlite"
 )
 SQLALCHEMY_TRACK_MODIFICATIONS = False
 RESOURCE_METHODS = ["GET", "POST", "DELETE"]
