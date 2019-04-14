@@ -1,8 +1,9 @@
 from sqlalchemy import Column, String, DateTime, ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
+from marshmallow_sqlalchemy import ModelSchema
 import uuid
-
+from datetime import datetime
 Base = declarative_base()
 
 
@@ -13,11 +14,11 @@ def generate_uuid():
 class Source(Base):
     __tablename__ = "source"
     id = Column(String, primary_key=True, default=generate_uuid)
-    name = Column(String)
-    environment = Column(String)
-    encoding = Column(String)
-    created_at = Column(DateTime)
-    updated_at = Column(DateTime)
+    name = Column(String, nullable=False)
+    environment = Column(String, nullable=False)
+    encoding = Column(String, nullable=False)
+    created_at = Column(DateTime, nullable=False, default=datetime.utcnow)
+    updated_at = Column(DateTime, nullable=False, onupdate=datetime.utcnow)
     deleted_at = Column(DateTime)
     messages = relationship("Message", backref="source", lazy="noload")
 
@@ -25,9 +26,9 @@ class Source(Base):
 class Message(Base):
     __tablename__ = "message"
     id = Column(String, primary_key=True, default=generate_uuid)
-    source_id = Column(String, ForeignKey("source.id"))
-    message = Column(String)
-    status = Column(String)
-    created_at = Column(DateTime)
-    updated_at = Column(DateTime)
+    source_id = Column(String, ForeignKey("source.id"), nullable=False)
+    message = Column(String, nullable=False)
+    status = Column(String, nullable=False)
+    created_at = Column(DateTime, nullable=False, default=datetime.utcnow)
+    updated_at = Column(DateTime, nullable=False, onupdate=datetime.utcnow)
     deleted_at = Column(DateTime)

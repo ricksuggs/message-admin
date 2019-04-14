@@ -4,12 +4,13 @@ setup(
     name="message-admin-rest",
     packages=["api"],
     install_requires=[
-        "flask==0.12",
-        "eve==0.7.10",
-        "eve-sqlalchemy==0.7.0",
-        "itsdangerous==0.24",
-        "werkzeug==0.11.15",
+        "flask",
+        "flask-restful",
+        "flask-sqlalchemy",
+        "sqlalchemy-utils",
+        "marshmallow-sqlalchemy",
+        "flask_marshmallow"
     ],
     setup_requires=["pytest-runner"],
-    tests_require=["pytest", "pytest_mockito"],
+    tests_require=["pytest", "pytest_mockito", "pytest-flask"],
 )
