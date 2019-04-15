@@ -52,6 +52,10 @@ def test_delete_source(when, client):
     res = client.delete(url_for("delete_source", id=source.id, _method="DELETE"))
     assert res.status == "204 NO CONTENT"
 
+    source = run.db.session.query(Source).filter(Source.id == source.id).first()
+    assert source
+    assert source.deleted_at
+
 
 def test_post_source(when, client):
 
@@ -118,3 +122,9 @@ def test_delete_message(when, client):
 
     res = client.delete(url_for("delete_message", id=message.id, _method="DELETE"))
     assert res.status == "204 NO CONTENT"
+
+    message_deleted = (
+        run.db.session.query(Message).filter(Message.id == message_id).first()
+    )
+    assert message_deleted
+    assert message_deleted.deleted_at

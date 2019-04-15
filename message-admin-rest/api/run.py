@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from pathlib import Path
 from api.models import Source, Message
 from flask_marshmallow import Marshmallow
+from datetime import datetime
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = f"sqlite:////{Path.cwd()}/db.sqlite"
@@ -83,7 +84,8 @@ def delete_source(id):
     if not source:
         return ("", 404)
 
-    db.session.delete(source)
+    source.deleted_at = datetime.utcnow()
+    db.session.add(source)
     db.session.commit()
 
     return ("", 204)
@@ -137,7 +139,8 @@ def delete_message(id):
     if not message:
         return ("", 404)
 
-    db.session.delete(message)
+    message.deleted_at = datetime.utcnow()
+    db.session.add(message)
     db.session.commit()
 
     return ("", 204)
