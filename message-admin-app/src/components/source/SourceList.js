@@ -3,7 +3,7 @@ import { graphql } from "react-apollo";
 import gql from "graphql-tag";
 import { Menu, MenuItem } from "@blueprintjs/core";
 
-const Query = gql`
+const query = gql`
   query sources {
     sources @rest(type: "Sources", path: "source") {
       id
@@ -14,7 +14,7 @@ const Query = gql`
   }
 `;
 
-const SourceList = ({ loading, error, sources, onSelectSource }) => {
+export const SourceList = ({ loading, error, sources, onSelectSource }) => {
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -34,7 +34,7 @@ const SourceList = ({ loading, error, sources, onSelectSource }) => {
     </Menu>
   );
 };
-export default graphql(Query, {
+export default graphql(query, {
   props: ({ data }) => {
     if (data.loading) {
       return {

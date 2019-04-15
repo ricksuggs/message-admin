@@ -5,7 +5,7 @@ import { Table, Column, Cell, TableLoadingOption } from "@blueprintjs/table";
 import { HTMLTable } from "@blueprintjs/core";
 import { Row, Col } from "react-flexbox-grid";
 
-const Query = gql`
+const query = gql`
   query($sourceId: String!) {
     messages(sourceId: $sourceId)
       @rest(type: "Messages", path: "source/:sourceId/message") {
@@ -18,7 +18,7 @@ const Query = gql`
   }
 `;
 
-const MessageList = ({ loading, error, messages }) => {
+export const MessageList = ({ loading, error, messages }) => {
   const getCellRenderer = key => {
     if (messages) {
       return rowIndex => <Cell>{messages[rowIndex][key]}</Cell>;
@@ -111,7 +111,7 @@ const MessageList = ({ loading, error, messages }) => {
     </>
   );
 };
-export default graphql(Query, {
+export default graphql(query, {
   options: ({ sourceId }) => {
     return { variables: { sourceId } };
   },

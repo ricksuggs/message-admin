@@ -17,7 +17,7 @@ const client = new ApolloClient({
   cache: new InMemoryCache()
 });
 
-const App = () => {
+export const App = () => {
   const [selectedSource, onSelectSource] = useState(null);
   return (
     <Grid className="app" fluid>
