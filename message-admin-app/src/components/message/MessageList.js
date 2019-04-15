@@ -3,6 +3,7 @@ import { graphql } from "react-apollo";
 import gql from "graphql-tag";
 import { Table, Column, Cell, TableLoadingOption } from "@blueprintjs/table";
 import { HTMLTable } from "@blueprintjs/core";
+import { Row, Col } from "react-flexbox-grid";
 
 const Query = gql`
   query($sourceId: String!) {
@@ -11,6 +12,8 @@ const Query = gql`
       id
       message
       status
+      created_at
+      updated_at
     }
   }
 `;
@@ -51,17 +54,35 @@ const MessageList = ({ loading, error, messages }) => {
 
   return (
     <>
-      {Object.keys(statusStats).map(key => {
-        if (statusStats.hasOwnProperty(key)) {
-          return (
-            <div key={key}>
-              {key}: {statusStats[key]}
-            </div>
-          );
-        } else {
-          return null;
-        }
-      })}
+      <Row>
+        <Col xs>
+          <h4>Summary Statistics</h4>
+          <HTMLTable condensed bordered>
+            <thead>
+              <tr>
+                <td>Status</td>
+                <td>Count</td>
+              </tr>
+            </thead>
+            <tbody>
+              {Object.keys(statusStats).map(key => {
+                if (statusStats.hasOwnProperty(key)) {
+                  return (
+                    <tr key={key}>
+                      <td>{key}</td>
+                      <td>{statusStats[key]}</td>
+                    </tr>
+                  );
+                } else {
+                  return null;
+                }
+              })}
+            </tbody>
+          </HTMLTable>
+        </Col>
+      </Row>
+
+      <h4>Messages</h4>
       <Table
         numRows={loading ? 10 : messages.length}
         loadingOptions={getLoadingOptions(loading)}
@@ -75,6 +96,16 @@ const MessageList = ({ loading, error, messages }) => {
           key="status"
           name="Status"
           cellRenderer={getCellRenderer("status")}
+        />
+        <Column
+          key="created_at"
+          name="Created At"
+          cellRenderer={getCellRenderer("created_at")}
+        />
+        <Column
+          key="updated_at"
+          name="Updated At"
+          cellRenderer={getCellRenderer("updated_at")}
         />
       </Table>
     </>

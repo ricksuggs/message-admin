@@ -51,7 +51,6 @@ const SourceDetail = ({ source }) => (
     </Row>
     <Row>
       <Col className="source-detail-messages" xs>
-        <h3>Messages</h3>
         <MessageList sourceId={source.id} />
       </Col>
     </Row>
